@@ -10,6 +10,7 @@ Implementation by Franco M. Luque
 To use:
 
 Install NLTK.  Version 2 works.
+Use Python 2.7.  (2.6 should work.)
 
 See demo.py.
 You must supply a corpus.

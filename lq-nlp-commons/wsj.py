@@ -8,6 +8,7 @@ import os
 from nltk.corpus.reader import util
 from nltk.corpus.reader import bracket_parse
 from nltk import tree
+from nltk import Tree
 from nltk.util import LazyMap
 
 import treebank
@@ -89,7 +90,7 @@ class WSJ(treebank.SavedTreebank):
         @type files: L{string} or L{tuple(string)}
         @rtype: iterator over L{tree}
         """
-        if files is None:
+        if files is None or files == []:
             files = self.get_files()
         
         # Just one file to process?  If so convert to a tuple so we can iterate
@@ -140,7 +141,8 @@ def test():
 
 def treebank_bracket_parse(t):
     try:
-        return tree.bracket_parse(t)
+        return Tree.parse(t, remove_empty_top_bracketing=True)
+        # return tree.bracket_parse(t)
     except IndexError:
         # in case it's the real treebank format,
         # strip first and last brackets before parsing

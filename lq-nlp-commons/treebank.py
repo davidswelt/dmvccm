@@ -9,6 +9,7 @@ import itertools
 
 from nltk import tree
 from nltk.corpus.reader import api
+from nltk.corpus.reader.api import SyntaxCorpusReader
 from nltk.util import LazyMap
 
 import util
@@ -365,13 +366,14 @@ def span_hits_count(gold_spans, parse_spans, labelled=False):
 """
 
 
-class Treebank(api.SyntaxCorpusReader):
+class Treebank(SyntaxCorpusReader):
     trees = None
     
     def __init__(self, trees=None):
         if trees is None:
             trees = []
         self.trees = trees
+        # super.__init__(self.basedir)
     
     def get_trees(self):
         return self.trees
@@ -514,10 +516,11 @@ class SavedTreebank(Treebank):
     
     def get_trees(self):
         if self.trees == []:
+            # attempt to load cache
             trees = util.load_obj(self.filename)
-            if trees is None:
+            if trees is None or trees == []:  # not cached yet
                 trees = self._generate_trees()
-                util.save_obj(trees, self.filename)
+                util.save_obj(trees, self.filename) # save cache
             self.trees = trees
         return self.trees
 
