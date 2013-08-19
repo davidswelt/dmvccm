@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # test/demo source code for DMV/CCM  (Klein&Manning 2004)
 # and its implementation by Franco M. Luque
 # see: http://www.cs.famaf.unc.edu.ar/~francolq/en/proyectos/dmvccm
