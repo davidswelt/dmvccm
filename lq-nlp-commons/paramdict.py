@@ -37,6 +37,11 @@ class ParamDict:
     def iteritems(self):
         return self.d.iteritems()
 
+    def show(self,maxlen=None):
+        for k,v in self.d.iteritems():
+            if not maxlen or len(k)<=maxlen:
+                print k,v
+
 
 # Common procedure used in ParamDict:
 def add(dict, x, val):
