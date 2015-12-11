@@ -11,6 +11,7 @@
 # David Reitter, Aug 2013, reitter@psu.edu
 
 CORPUS_DIR = "/Users/dr/Downloads/DMV/wsj_comb/parsed/mrg/wsj"
+CORPUS_DIR = "/home/xtof/corpus/WSJ/wsj_comb"
 
 import nltk
 import nltk.corpus
