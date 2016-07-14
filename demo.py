@@ -19,11 +19,6 @@ import nltk.corpus
 from nltk.corpus import ptb
 
 
-from nltk.tokenize import RegexpTokenizer
-from nltk.tag import simplify_brown_tag, simplify_wsj_tag,\
-                      simplify_alpino_tag, simplify_indian_tag,\
-                      simplify_tag
-
 from nltk.corpus.util import LazyCorpusLoader
 from nltk.corpus.reader import *
 

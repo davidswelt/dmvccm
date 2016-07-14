@@ -2,10 +2,11 @@
 # URL: <http://www.cs.famaf.unc.edu.ar/~francolq/>
 # For license information, see LICENSE.txt
 
+import codecs
 import itertools
 import os
 
-from nltk.corpus.reader import util
+from nltk.corpus.reader.util import read_sexpr_block
 from nltk.corpus.reader import bracket_parse
 from nltk import tree
 from nltk import Tree
@@ -100,7 +101,7 @@ class WSJ(treebank.SavedTreebank):
         size = 0
         for file in files:
             path = os.path.join(self.basedir, file)
-            f = open(path)
+            f = codecs.open(path, encoding='utf-8')
             i = 0
             t = read_parsed_tb_block(f)
             #print "Parsing", len(t), "trees from file", file
@@ -141,13 +142,11 @@ def test():
 
 def treebank_bracket_parse(t):
     try:
-        return Tree.parse(t, remove_empty_top_bracketing=True)
-        # return tree.bracket_parse(t)
+        return Tree.fromstring(t, remove_empty_top_bracketing=True)
     except IndexError:
         # in case it's the real treebank format,
         # strip first and last brackets before parsing
         return tree.bracket_parse(t.strip()[1:-1])
 
 def read_parsed_tb_block(stream):
-    return [treebank_bracket_parse(t) for t in
-            util.read_sexpr_block(stream)]
+    return [treebank_bracket_parse(t) for t in read_sexpr_block(stream)]

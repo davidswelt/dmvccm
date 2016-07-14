@@ -20,10 +20,10 @@ class Tree(tree.Tree):
         if nltk_tree is None:
             return super(Tree, cls).__new__(cls)
         else:
-            return super(Tree, cls).__new__(cls, nltk_tree.node, nltk_tree)
+            return super(Tree, cls).__new__(cls, nltk_tree.label(), nltk_tree)
     
     def __init__(self, nltk_tree, labels=None):
-        tree.Tree.__init__(self, nltk_tree.node, nltk_tree)
+        tree.Tree.__init__(self, nltk_tree.label(), nltk_tree)
         self.labels = labels
     
     def copy(self, deep=False):
@@ -55,9 +55,9 @@ class Tree(tree.Tree):
                     st = recursion(st, f)
                     subtrees += [st]
             if subtrees == []:
-                return t.node
+                return t.label()
             else:
-                return tree.Tree(t.node, subtrees)
+                return tree.Tree(t.label(), subtrees)
         t = recursion(self, f)
         if isinstance(t, tree.Tree):
             self.__init__(t, self.labels)
