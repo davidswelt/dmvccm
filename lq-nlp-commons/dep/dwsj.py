@@ -50,11 +50,12 @@ def find_heads(t):
     and st.head.
     """
     for st in t.subtrees():
-        label = st.node.split('-')[0].split('=')[0]
+        label = st.label().split('-')[0].split('=')[0]
         # the children may be a tree or a leaf (type string):
-        children = [(type(x) is str and x) or x.node.split('-')[0] for x in st]
+        children = [(type(x) is str and x) or (type(x) is unicode and x) or
+                    x.label().split('-')[0] for x in st]
         st.head = get_head(label, children)-1
-        st.node += '['+children[st.head]+']'
+        st.set_label('['+children[st.head]+']')
 
 
 def tree_to_depset(t):
@@ -66,7 +67,7 @@ def tree_to_depset(t):
     # Traverse the tree from the leaves upwards (postorder)
     for p in t.treepositions(order='postorder'):
         st = t[p]
-        if isinstance(st, str):
+        if isinstance(st, str) or isinstance(st, unicode):
             # We are at leave with index leave_index.
             aux[p] = leave_index
             leave_index += 1
@@ -74,7 +75,7 @@ def tree_to_depset(t):
             # We are at a subtree. aux has the index of the
             # head for each subsubtree.
             head = st.head
-            if type(st[head]) is str:
+            if type(st[head]) is str or type(st[head]) is unicode:
                 # index of the leave at deptree[head]
                 head_index = aux[p+(head,)]
             else:
@@ -84,7 +85,7 @@ def tree_to_depset(t):
                 sst = st[i]
                 if i == head:
                     pass # skip self dependency
-                elif type(sst) is str:
+                elif type(sst) is str or type(sst) is unicode:
                     res.add((aux[p+(i,)], head_index))
                 else:
                     res.add((sst.head_index, head_index))
